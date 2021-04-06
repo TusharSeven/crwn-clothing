@@ -5,6 +5,8 @@ import { auth } from '../../firebase/firebase.utils';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import './header.styles.scss';
 
+import { connect } from 'react-redux';
+
 const Header = ({ currentUser }) => {
     return (
         <div className='header'>
@@ -24,5 +26,9 @@ const Header = ({ currentUser }) => {
         </div>
     )
 }
-
-export default Header;
+//it is a function which assign prop(currentUser) to the component(Header) which takes the value of currentUser from the rootReducer
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+})
+//connect is a higher order component which take two arguments
+export default connect(mapStateToProps)(Header);
