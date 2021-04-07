@@ -13,9 +13,19 @@ export const selectCartItems = createSelector(
     cart => cart.cartItems
     //when we use createSelector to create output selector then it is memoized selector
 );
+export const selectCartHidden = createSelector(
+    [selectCart],
+    (cart) => cart.hidden
+)
 
 //output selectors
 export const selectCartItemsCount = createSelector(
     [selectCartItems],
     cartItems => cartItems.reduce((accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity, 0)
 );
+
+export const selectCartTotal = createSelector(
+    [selectCartItems],
+    cartItems => cartItems.reduce((accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity * cartItem.price, 0)
+
+)

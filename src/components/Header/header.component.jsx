@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
-
+import { createStructuredSelector } from 'reselect';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import './header.styles.scss';
+
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 import { connect } from 'react-redux';
 
@@ -33,9 +36,17 @@ const Header = ({ currentUser, hidden }) => {
     )
 }
 //it is a function which assign prop(currentUser) to the component(Header) which takes the value of currentUser from the rootReducer
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-    currentUser,
-    hidden,
+
+// const mapStateToProps = (state) => ({
+//     currentUser: selectCurrentUser(state),
+//     hidden: selectCartHidden(state)
+// })
+
+//it gets repeated to write state in arhgument in the above method , thats why we use createStructuredSelector
+//another way
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 })
 //connect is a higher order component which take two arguments
 export default connect(mapStateToProps)(Header);
