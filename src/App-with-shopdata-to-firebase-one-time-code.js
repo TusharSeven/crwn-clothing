@@ -8,24 +8,25 @@ import CheckoutPage from './pages/checkout/checkout.component';
 
 import Header from './components/header/header.component';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import { GlobalStyle } from './global.styles';
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
+import './App.css';
 
 
 class App extends React.Component {
   // unsubscribeFromAuth = null;
   // this.unsubscribeFromAuth = 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
+    const { setCurrentUser, collectionsArray } = this.props;
 
     auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
-        //to get the data, we use onSnapshot method
+
         userRef.onSnapshot(snapShot => {
           setCurrentUser({
             id: snapShot.id,
@@ -34,6 +35,7 @@ class App extends React.Component {
         })
       }
       setCurrentUser(userAuth);
+      addCollectionAndDocuments('collections', collectionsArray.map(({ title, items }) => ({ title, items })));
     });
   }
 
@@ -44,7 +46,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <GlobalStyle />
         <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
@@ -59,6 +60,7 @@ class App extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
 })
 //it dispatches the user object to the action(setCurrentUser in reducer action) , by using this we can replace the setState fuction, it updates the state in reducer
 const mapDispatchToProps = dispatch => ({

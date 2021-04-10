@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { createStructuredSelector } from 'reselect';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-import './header.styles.scss';
+//these are styled components
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './header.styles';
 
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
@@ -14,25 +14,26 @@ import { connect } from 'react-redux';
 
 const Header = ({ currentUser, hidden }) => {
     return (
-        <div className='header'>
-            <Link className='logo-container' to='/'>
+        <HeaderContainer>
+            <LogoContainer to='/'>
                 <Logo className='logo' />
-            </Link>
-            <div className='options'>
-                <Link className='option' to='/shop'>SHOP</Link>
-                <Link className='option' to='/contact'>CONTACT</Link>
+            </LogoContainer>
+            <OptionsContainer>
+                <OptionLink to='/shop'>SHOP</OptionLink>
+                <OptionLink className='option' to='/contact'>CONTACT</OptionLink>
                 {
                     currentUser ?
-                        (<div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>)
+                        //by using as attribute we can pass element as prop to the styled commponent 
+                        (<OptionLink as='div' onClick={() => auth.signOut()}>SIGN OUT</OptionLink>)
                         :
-                        (<Link className='option' to='/signin'>SIGN IN</Link>)
+                        (<OptionLink className='option' to='/signin'>SIGN IN</OptionLink>)
                 }
                 <CartIcon />
-            </div>
+            </OptionsContainer>
             {
                 hidden ? null : <CartDropdown />
             }
-        </div>
+        </HeaderContainer>
     )
 }
 //it is a function which assign prop(currentUser) to the component(Header) which takes the value of currentUser from the rootReducer

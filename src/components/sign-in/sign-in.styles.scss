@@ -11,4 +11,9 @@
       display: flex;
       justify-content: space-between;
     }
+
+    @media(max-width : 800px) {
+      width: auto;
+      padding-bottom: 20px;
+    }
   }
