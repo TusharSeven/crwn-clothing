@@ -3,7 +3,7 @@ import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { createStructuredSelector } from 'reselect';
-import { ReactComponent as Logo } from '../../assets/crown.svg';
+import { ReactComponent as Logo } from '../../assets/cap.svg';
 //these are styled components
 import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './header.styles';
 
@@ -20,7 +20,7 @@ const Header = ({ currentUser, hidden }) => {
             </LogoContainer>
             <OptionsContainer>
                 <OptionLink to='/shop'>SHOP</OptionLink>
-                <OptionLink className='option' to='/contact'>CONTACT</OptionLink>
+                {/* <OptionLink className='option' to='/contact'>CONTACT</OptionLink> */}
                 {
                     currentUser ?
                         //by using as attribute we can pass element as prop to the styled commponent 

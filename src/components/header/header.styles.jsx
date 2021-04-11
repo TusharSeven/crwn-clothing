@@ -12,11 +12,11 @@ export const HeaderContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 
     @media screen and (max-width: 800px){
-        height: 60px;
-        padding:10px;
+        height: 50px;
+        padding:0px;
         margin-bottom:20px;
     }
 `;
@@ -24,10 +24,10 @@ export const HeaderContainer = styled.div`
 export const LogoContainer = styled(Link)`
     height: 100%;
     width: 70px;
-    padding: 25px;
+    padding: 10px;
 
     @media screen and (max-width: 800px){
-        width: 50px;
+        width: 40px;
         padding: 0;   
     }
 `

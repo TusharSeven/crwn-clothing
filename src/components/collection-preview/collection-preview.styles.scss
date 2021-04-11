@@ -6,6 +6,15 @@
     .title {
       font-size: 28px;
       margin-bottom: 25px;
+
+      span{
+        font-size: 12px;
+        padding-left: 10px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   
     .preview {

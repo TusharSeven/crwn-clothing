@@ -1,11 +1,19 @@
 .sign-in-and-sign-up{
-    width : 850px;
+        
+    background: #ffffff;
+    background-image: none;
+    width : 950px;
+    height: 85vh;
     display: flex;
     justify-content: space-between;
     margin: 30px auto;
+    padding: 25px;
+    box-shadow: 0 4px 28px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
 
     @media(max-width : 800px) {
         width: auto;
+        height: auto;
         flex-direction: column;
         padding: 10px;
       }
