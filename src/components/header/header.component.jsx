@@ -26,7 +26,7 @@ const Header = ({ currentUser, hidden }) => {
                         //by using as attribute we can pass element as prop to the styled commponent 
                         (<OptionLink as='div' onClick={() => auth.signOut()}>SIGN OUT</OptionLink>)
                         :
-                        (<OptionLink className='option' to='/signin'>SIGN IN</OptionLink>)
+                        (<OptionLink to='/signin'>SIGN IN</OptionLink>)
                 }
                 <CartIcon />
             </OptionsContainer>
