@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import HomePage from './pages/homepage/homepage.component';
@@ -10,51 +10,51 @@ import Header from './components/header/header.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.actions';
+// import { setCurrentUser } from './redux/user/user.actions';
+import { checkUserSession } from './redux/user/user.actions';
+
+
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
+
 import { GlobalStyle } from './global.styles';
 
 
-class App extends React.Component {
+const App = ({ currentUser, checkUserSession }) => {
   // unsubscribeFromAuth = null;
   // this.unsubscribeFromAuth = 
-  componentDidMount() {
-    const { setCurrentUser } = this.props;
-
-    auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        //to get the data, we use onSnapshot method
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        })
-      }
-      setCurrentUser(userAuth);
-    });
-  }
+  useEffect(() => {
+    checkUserSession();
+    // auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
+    //     //to get the data, we use onSnapshot method
+    //     userRef.onSnapshot(snapShot => {
+    //       setCurrentUser({
+    //         id: snapShot.id,
+    //         ...snapShot.data()
+    //       });
+    //     })
+    //   }
+    //   setCurrentUser(userAuth);
+    // });
+  }, []);
 
   // componentWillUnmount() {
   //   this.unsubscribeFromAuth();
   // }
-
-  render() {
-    return (
-      <div>
-        <GlobalStyle />
-        <Header />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/shop' component={ShopPage} />
-          <Route exact path='/checkout' component={CheckoutPage} />
-          <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : <SigninAndSignup />} />
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <GlobalStyle />
+      <Header />
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <Route path='/shop' component={ShopPage} />
+        <Route exact path='/checkout' component={CheckoutPage} />
+        <Route exact path='/signin' render={() => currentUser ? (<Redirect to='/' />) : <SigninAndSignup />} />
+      </Switch>
+    </div>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -62,6 +62,7 @@ const mapStateToProps = createStructuredSelector({
 })
 //it dispatches the user object to the action(setCurrentUser in reducer action) , by using this we can replace the setState fuction, it updates the state in reducer
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  // setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);

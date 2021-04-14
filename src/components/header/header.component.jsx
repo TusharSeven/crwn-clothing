@@ -9,10 +9,11 @@ import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink } from './
 
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { signOutStart } from '../../redux/user/user.actions';
 
 import { connect } from 'react-redux';
 
-const Header = ({ currentUser, hidden }) => {
+const Header = ({ currentUser, hidden, signOutStart }) => {
     return (
         <HeaderContainer>
             <LogoContainer to='/'>
@@ -24,7 +25,7 @@ const Header = ({ currentUser, hidden }) => {
                 {
                     currentUser ?
                         //by using as attribute we can pass element as prop to the styled commponent 
-                        (<OptionLink as='div' onClick={() => auth.signOut()}>SIGN OUT</OptionLink>)
+                        (<OptionLink as='div' onClick={() => signOutStart()}>SIGN OUT</OptionLink>)
                         :
                         (<OptionLink to='/signin'>SIGN IN</OptionLink>)
                 }
@@ -49,5 +50,8 @@ const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
     hidden: selectCartHidden
 })
+const mapDispatchToProps = dispatch => ({
+    signOutStart: () => dispatch(signOutStart())
+});
 //connect is a higher order component which take two arguments
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

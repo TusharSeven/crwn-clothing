@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect'
@@ -7,7 +7,7 @@ import CollectionPage from '../collection/collection.component';
 
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component'
 
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 import { selectIsCollectionFetching, selectIsCollectionLoaded } from '../../redux/shop/shop.selectors';
 
 import WithSpinner from '../../components/with-spinner/with-spinner.component';
@@ -16,13 +16,11 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
 const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
+//match prop comes from the App.js , access is given by route component because inside app.js we are rendering shopPage with Route
+const ShopPage = ({ fetchCollectionsStart, match, isCollectionFetching, isCollectionLoaded }) => {
 
-class ShopPage extends React.Component {
-
-    componentDidMount() {
-        const { fetchCollectionsStartAsync } = this.props;
-        fetchCollectionsStartAsync();
-
+    useEffect(() => {
+        fetchCollectionsStart();
 
         // const { updateCollections } = this.props;
 
@@ -62,21 +60,19 @@ class ShopPage extends React.Component {
         //     //after the data is stored in global state, then we set the isLoading to false
         //     this.setState({ loading: false })
         // })
-    }
+    }, [fetchCollectionsStart]);
 
-    render() {
-        //match prop comes from the App.js , access is given by route component because inside app.js we are rendering shopPage with Route
-        const { match, isCollectionFetching, isCollectionLoaded } = this.props;
 
-        return (
-            <div className='shop-page' >
-                {/* instead of rendering CollectionOverview and XCollectionPage component directly we are wrapping it in WithSpinner (HOC) component above to show the loading spinner */}
-                <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={isCollectionFetching} {...props} />} />
-                {/* :categoryId is the parameter which takes the value from url, example if url is /shop/hats then categoryId==hats , we can use this param in the CategoryPage component as match.params.categoryId*/}
-                <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={!isCollectionLoaded} {...props} />} />
-            </div>
-        )
-    }
+
+
+    return (
+        <div className='shop-page' >
+            {/* instead of rendering CollectionOverview and XCollectionPage component directly we are wrapping it in WithSpinner (HOC) component above to show the loading spinner */}
+            <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={isCollectionFetching} {...props} />} />
+            {/* :categoryId is the parameter which takes the value from url, example if url is /shop/hats then categoryId==hats , we can use this param in the CategoryPage component as match.params.categoryId*/}
+            <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={!isCollectionLoaded} {...props} />} />
+        </div>
+    )
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -85,7 +81,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+    fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
