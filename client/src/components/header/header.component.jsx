@@ -1,5 +1,5 @@
 import React from 'react';
-import { auth } from '../../firebase/firebase.utils';
+// import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { createStructuredSelector } from 'reselect';
@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 const Header = ({ currentUser, hidden, signOutStart }) => {
     return (
         <HeaderContainer>
-            <LogoContainer to='/'>
+            <LogoContainer to='/' >
                 <Logo className='logo' />
             </LogoContainer>
             <OptionsContainer>
@@ -51,7 +51,7 @@ const mapStateToProps = createStructuredSelector({
     hidden: selectCartHidden
 })
 const mapDispatchToProps = dispatch => ({
-    signOutStart: () => dispatch(signOutStart())
+    signOutStart: () => dispatch(signOutStart()),
 });
 //connect is a higher order component which take two arguments
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

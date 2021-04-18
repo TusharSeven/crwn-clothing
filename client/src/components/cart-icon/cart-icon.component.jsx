@@ -8,8 +8,13 @@ import { connect } from 'react-redux'
 
 //the second argument(toggleCartHidden) in the CartIcon is the function which we made in the mapDispatchToProps
 const CartIcon = ({ toggleCartHidden, itemCount }) => {
+
+    const toggleHidden = (e) => {
+        e.stopPropagation();
+        toggleCartHidden();
+    }
     return (
-        <div className='cart-icon' onClick={toggleCartHidden}>
+        <div className='cart-icon' onClick={(e) => toggleHidden(e)}>
             <ShoppingIcon className='shopping-icon' />
             <span className='item-count'>{itemCount}</span>
         </div>

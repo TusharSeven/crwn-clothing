@@ -8,6 +8,6 @@ export const HomePageContainer = styled.div`
 
     @media screen and (max-width:800px){
         padding:10px;
-        height:100vh
+        height:88vh
     }
 `;

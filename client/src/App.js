@@ -12,6 +12,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
 // import { setCurrentUser } from './redux/user/user.actions';
 import { checkUserSession } from './redux/user/user.actions';
+import { hideCart } from './redux/cart/cart.actions'
 
 
 import { createStructuredSelector } from 'reselect';
@@ -20,7 +21,7 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 import { GlobalStyle } from './global.styles';
 
 
-const App = ({ currentUser, checkUserSession }) => {
+const App = ({ currentUser, checkUserSession, hideCart }) => {
   // unsubscribeFromAuth = null;
   // this.unsubscribeFromAuth = 
   useEffect(() => {
@@ -44,7 +45,7 @@ const App = ({ currentUser, checkUserSession }) => {
   //   this.unsubscribeFromAuth();
   // }
   return (
-    <div>
+    <div onClick={() => hideCart()}>
       <GlobalStyle />
       <Header />
       <Switch>
@@ -63,6 +64,8 @@ const mapStateToProps = createStructuredSelector({
 //it dispatches the user object to the action(setCurrentUser in reducer action) , by using this we can replace the setState fuction, it updates the state in reducer
 const mapDispatchToProps = dispatch => ({
   // setCurrentUser: user => dispatch(setCurrentUser(user))
-  checkUserSession: () => dispatch(checkUserSession())
+  checkUserSession: () => dispatch(checkUserSession()),
+  hideCart: () => dispatch(hideCart()),
+
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);
