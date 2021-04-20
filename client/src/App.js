@@ -7,6 +7,7 @@ import SigninAndSignup from './pages/signin-and-signup/signin-and-signup.compone
 import CheckoutPage from './pages/checkout/checkout.component';
 
 import Header from './components/header/header.component';
+import Footer from './components/footer/footer.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
@@ -54,6 +55,7 @@ const App = ({ currentUser, checkUserSession, hideCart }) => {
         <Route exact path='/checkout' component={CheckoutPage} />
         <Route exact path='/signin' render={() => currentUser ? (<Redirect to='/' />) : <SigninAndSignup />} />
       </Switch>
+      <Footer />
     </div>
   );
 }

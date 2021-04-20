@@ -20,7 +20,9 @@ import ShopActionTypes from './shop.types';
 function* fetchCollectionsAsync() {
     try {
         const collectionRef = firestore.collection('collections');
+        console.log(collectionRef);
         const snapshot = yield collectionRef.get();
+        console.log(snapshot);
         const collectionsMap = yield call(convertCollectionSnapshotToMap, snapshot);
         //put is an alternative of dispacth in saga , is is used to call actions
         yield put(fetchCollectionsSuccess(collectionsMap));
