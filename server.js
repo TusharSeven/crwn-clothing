@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const enforce = require('express-sslify');
 
 //for using environment variable inside development build
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //serving static files
 if (process.env.NODE_ENV === 'production') {
+    app.use(enforce.HTTPS({ trustProtoHeader: true }));
     app.use(express.static(path.join(__dirname, 'client/build')));
 
     app.get('*', function (req, res) {
@@ -26,6 +28,10 @@ app.listen(port, err => {
     if (err) throw err;
     console.log('Server is running on ' + port);
 });
+//for pwa
+app.get('/service-worker.js', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
+})
 //req contains request data (request) from frontend
 //res is used to send the response to the frontend
 app.post('/payment', (req, res) => {
